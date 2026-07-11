@@ -7,17 +7,134 @@ Documento de referencia para entender **qué es HTML**, **para qué sirve** y **
 - [¿Qué es HTML?](#qué-es-html)
 - [Estructura básica de un documento HTML](#estructura-básica-de-un-documento-html)
 - [Partes del documento HTML](#partes-del-documento-html)
+- [Comentarios en HTML](#comentarios-en-html)
 - [Reglas básicas de HTML](#reglas-básicas-de-html)
+- [Flujo básico del navegador](#flujo-básico-del-navegador)
 - [Relación con CSS y JavaScript](#relación-con-css-y-javascript)
-- [Etiquetas de texto](#etiquetas-de-texto-text-content)
+- [Atributos globales](#atributos-globales)
+- [Elementos obsoletos (evitar)](#elementos-obsoletos-evitar)
+- [Títulos (Headings)](#títulos-headings)
+- [Etiquetas de texto (Text Content)](#etiquetas-de-texto-text-content)
 - [Listas](#listas)
-- [Enlaces](#enlaces-a)
-- [Etiquetas semánticas](#etiquetas-semánticas-estructura-de-página)
-- [Formularios](#formularios-forms)
-- [Multimedia](#contenido-multimedia-imágenes)
+  - [Listas no ordenadas (`<ul>`)](#listas-no-ordenadas-ul)
+  - [Listas ordenadas (`<ol>`)](#listas-ordenadas-ol)
+  - [Listas de definición (`<dl>`)](#listas-de-definición-dl)
+- [Enlaces (`<a>`)](#enlaces-a)
+  - [Atributos importantes de `<a>`](#atributos-importantes-de-a)
+  - [Buenas prácticas de enlaces](#buenas-prácticas-de-enlaces)
+- [Etiquetas semánticas (estructura de página)](#etiquetas-semánticas-estructura-de-página)
+  - [Jerarquía recomendada (layout típico)](#jerarquía-recomendada-layout-típico)
+  - [Estructura completa recomendada](#estructura-completa-recomendada)
+  - [¿Cuándo usar cada etiqueta?](#cuándo-usar-cada-etiqueta)
+- [`<div>` (contenedor genérico)](#div-contenedor-genérico)
+  - [Uso básico](#uso-básico)
+  - [`<div>` como contenedor de layout](#div-como-contenedor-de-layout)
+  - [`<div>` vs etiquetas semánticas](#div-vs-etiquetas-semánticas)
+  - [`<div>` con clases e IDs](#div-con-clases-e-ids)
+  - [`<div>` como agrupador visual](#div-como-agrupador-visual)
+  - [`<div>` y accesibilidad](#div-y-accesibilidad)
+  - [Cuándo usar `<div>`](#cuándo-usar-div)
+  - [Ejemplo recomendado (uso correcto)](#ejemplo-recomendado-uso-correcto)
+  - [Resumen rápido](#resumen-rápido)
+- [Buenas prácticas de HTML semántico](#buenas-prácticas-de-html-semántico)
+- [Formularios (Forms)](#formularios-forms)
+  - [`<form>` (contenedor del formulario)](#form-contenedor-del-formulario)
+  - [`<label>` (etiqueta asociada al campo)](#label-etiqueta-asociada-al-campo)
+  - [`<input>` (tipos y atributos)](#input-tipos-y-atributos)
+  - [Tipos de `<input>` más usados](#tipos-de-input-más-usados)
+  - [`<textarea>` (texto largo)](#textarea-texto-largo)
+  - [`<select>` + `<option>` (lista desplegable)](#select-option-lista-desplegable)
+  - [`<datalist>` (sugerencias de autocompletado)](#datalist-sugerencias-de-autocompletado)
+  - [`<progress>` (progreso de una tarea)](#progress-progreso-de-una-tarea)
+  - [`<meter>` (valor dentro de un rango conocido)](#meter-valor-dentro-de-un-rango-conocido)
+  - [`<output>` (resultado de un cálculo)](#output-resultado-de-un-cálculo)
+  - [Botones (`button` e inputs tipo botón)](#botones-button-e-inputs-tipo-botón)
+  - [`fieldset` y `legend` (agrupar campos)](#fieldset-y-legend-agrupar-campos)
+  - [Validaciones HTML (inputs)](#validaciones-html-inputs)
+  - [Ejemplo completo (formulario recomendado)](#ejemplo-completo-formulario-recomendado)
+- [Contenido multimedia: imágenes](#contenido-multimedia-imágenes)
+  - [`<img>`](#img)
+  - [Tamaño explícito (layout estable)](#tamaño-explícito-layout-estable)
+  - [Accesibilidad (`alt`)](#accesibilidad-alt)
+  - [`<figure>` y `<figcaption>`](#figure-y-figcaption)
+  - [Imagen como enlace](#imagen-como-enlace)
+  - [Imágenes responsive (`srcset` + `sizes`)](#imágenes-responsive-srcset-sizes)
+  - [Condiciones de tamaño (`sizes`)](#condiciones-de-tamaño-sizes)
+  - [`<picture>` con condiciones (breakpoints reales)](#picture-con-condiciones-breakpoints-reales)
+  - [`<picture>` combinando formatos + condiciones](#picture-combinando-formatos-condiciones)
+  - [Carga diferida (lazy loading)](#carga-diferida-lazy-loading)
+  - [Decodificación de imágenes (`decoding`)](#decodificación-de-imágenes-decoding)
+  - [Imágenes decorativas](#imágenes-decorativas)
+  - [SVG como imagen](#svg-como-imagen)
+  - [Rutas de imágenes](#rutas-de-imágenes)
+  - [Formatos de imagen recomendados](#formatos-de-imagen-recomendados)
+  - [Errores comunes](#errores-comunes)
+- [Video (`<video>`)](#video-video)
+  - [Estructura base](#estructura-base)
+  - [Video con tamaño (`width` / `height`)](#video-con-tamaño-width-height)
+  - [Video con múltiples fuentes (`<source>`)](#video-con-múltiples-fuentes-source)
+  - [Atributo `type` en `<source>`](#atributo-type-en-source)
+  - [`poster` (imagen previa)](#poster-imagen-previa)
+  - [`preload` (carga anticipada)](#preload-carga-anticipada)
+  - [`autoplay`, `muted`, `loop`](#autoplay-muted-loop)
+  - [`controlslist` (opcional, soporte parcial)](#controlslist-opcional-soporte-parcial)
+  - [`disablepictureinpicture` (opcional)](#disablepictureinpicture-opcional)
+  - [Texto fallback dentro de `<video>`](#texto-fallback-dentro-de-video)
+  - [Ejemplo recomendado (completo)](#ejemplo-recomendado-completo)
+- [Audio (`<audio>`)](#audio-audio)
+  - [Estructura base](#estructura-base-1)
+  - [Audio con múltiples fuentes (`<source>`)](#audio-con-múltiples-fuentes-source)
+  - [Atributo `type` en `<source>`](#atributo-type-en-source-1)
+  - [`preload` (carga anticipada)](#preload-carga-anticipada-1)
+  - [`autoplay`, `muted`, `loop`](#autoplay-muted-loop-1)
+  - [`controlslist` (soporte parcial)](#controlslist-soporte-parcial)
+  - [Texto fallback dentro de `<audio>`](#texto-fallback-dentro-de-audio)
+  - [Ejemplo completo recomendado](#ejemplo-completo-recomendado)
+- [Buenas prácticas de audio y video](#buenas-prácticas-de-audio-y-video)
+- [`<iframe>` (documento anidado)](#iframe-documento-anidado)
+- [`<embed>` y `<object>` (contenido externo/plugins)](#embed-y-object-contenido-externo-plugins)
 - [Tablas](#tablas)
-- [Accesibilidad y ARIA](#accesibilidad-a11y-y-aria)
-- [SEO y metadatos](#seo-y-metadatos-del-documento-html)
+  - [Estructura básica de una tabla](#estructura-básica-de-una-tabla)
+  - [`<table>`](#table)
+  - [`<caption>` (título de la tabla)](#caption-título-de-la-tabla)
+  - [`<thead>`](#thead)
+  - [`<tr>` (fila)](#tr-fila)
+  - [`<th>` (celda de encabezado)](#th-celda-de-encabezado)
+  - [`<tbody>`](#tbody)
+  - [`<td>` (celda de datos)](#td-celda-de-datos)
+  - [`<tfoot>`](#tfoot)
+  - [`colspan` (combinar columnas)](#colspan-combinar-columnas)
+  - [`rowspan` (combinar filas)](#rowspan-combinar-filas)
+  - [Tabla con encabezados de fila y columna](#tabla-con-encabezados-de-fila-y-columna)
+  - [Accesibilidad en tablas](#accesibilidad-en-tablas)
+  - [Ejemplo completo recomendado](#ejemplo-completo-recomendado-1)
+- [`<details>` y `<summary>` (contenido plegable)](#details-y-summary-contenido-plegable)
+- [`<dialog>` (cuadro de diálogo nativo)](#dialog-cuadro-de-diálogo-nativo)
+- [Accesibilidad (A11y) y ARIA](#accesibilidad-a11y-y-aria)
+  - [¿Qué es ARIA?](#qué-es-aria)
+  - [Atributos ARIA más usados](#atributos-aria-más-usados)
+  - [`role`](#role)
+  - [Ejemplos comunes de ARIA bien aplicado](#ejemplos-comunes-de-aria-bien-aplicado)
+  - [Buenas prácticas de accesibilidad (general)](#buenas-prácticas-de-accesibilidad-general)
+  - [Errores comunes](#errores-comunes-1)
+  - [Resumen rápido](#resumen-rápido-1)
+- [`<script>` (JavaScript en HTML)](#script-javascript-en-html)
+- [`<noscript>` (contenido alternativo sin JavaScript)](#noscript-contenido-alternativo-sin-javascript)
+- [`<template>` (marcado reutilizable no renderizado)](#template-marcado-reutilizable-no-renderizado)
+- [`<canvas>` (gráficos vía JavaScript)](#canvas-gráficos-vía-javascript)
+- [SEO y metadatos del documento HTML](#seo-y-metadatos-del-documento-html)
+  - [Idioma del documento (`lang`)](#idioma-del-documento-lang)
+  - [Codificación de caracteres (`UTF-8`)](#codificación-de-caracteres-utf-8)
+  - [Viewport (responsive)](#viewport-responsive)
+  - [`<title>` (título del documento)](#title-título-del-documento)
+  - [Meta description](#meta-description)
+  - [Otras meta etiquetas comunes](#otras-meta-etiquetas-comunes)
+  - [Open Graph (redes sociales)](#open-graph-redes-sociales)
+  - [Favicon](#favicon)
+  - [`<base>` (URL base del documento)](#base-url-base-del-documento)
+  - [`<body>` (contenido visible)](#body-contenido-visible)
+  - [Estructura SEO recomendada (completa)](#estructura-seo-recomendada-completa)
+  - [Buenas prácticas SEO](#buenas-prácticas-seo)
 
 ---
 
@@ -194,6 +311,122 @@ Ejemplo común (recomendado) para cargar CSS y JS sin bloquear el parseo del HTM
 
 - `defer` descarga el script en paralelo y lo ejecuta cuando el HTML ya fue parseado.
 - Alternativa: colocar `<script src="..."></script>` al final del `<body>`.
+
+---
+
+## Atributos globales
+
+Se aplican a (casi) cualquier elemento HTML, sin importar su etiqueta.
+
+- **`id`**: identificador único en todo el documento.
+
+```html
+<div id="main-content">Contenido</div>
+```
+
+- **`class`**: lista de clases separadas por espacio, para CSS/JS.
+
+```html
+<div class="tarjeta destacada">Contenido</div>
+```
+
+- **`style`**: CSS inline (usar con moderación; preferir hojas de estilo).
+
+```html
+<p style="color: blue;">Texto azul</p>
+```
+
+- **`title`**: texto de ayuda (tooltip) al pasar el cursor.
+
+```html
+<abbr title="Cascading Style Sheets">CSS</abbr>
+```
+
+- **`hidden`**: oculta el elemento del renderizado.
+
+```html
+<div hidden>No se muestra</div>
+```
+
+- **`tabindex`**: incluye el elemento en la navegación por teclado y define su orden.
+
+```html
+<div tabindex="0">Enfocable con Tab (orden natural)</div>
+<div tabindex="-1">Enfocable solo por JavaScript, no con Tab</div>
+```
+
+- **`contenteditable`**: hace el contenido editable directamente por el usuario.
+
+```html
+<div contenteditable="true">Este texto se puede editar</div>
+```
+
+- **`draggable`**: habilita arrastrar el elemento (Drag and Drop API).
+
+```html
+<img src="logo.png" alt="Logo" draggable="true" />
+```
+
+- **`data-*`**: atributos personalizados, accesibles desde JS vía `dataset`.
+
+```html
+<li data-user-id="42" data-role="admin">Ana</li>
+<!-- JS: elemento.dataset.userId -> "42" | elemento.dataset.role -> "admin" -->
+```
+
+- **`lang`** / **`dir`**: idioma y direccionalidad del texto.
+
+```html
+<p lang="en">This paragraph is in English</p>
+<p dir="rtl">نص من اليمين لليسار</p>
+```
+
+- **`spellcheck`** / **`translate`**: corrección ortográfica y traducción automática.
+
+```html
+<textarea spellcheck="false"></textarea>
+<span translate="no">NombreDeMarca</span>
+```
+
+- **`accesskey`**: sugiere un atajo de teclado para el elemento.
+
+```html
+<a href="/" accesskey="i">Inicio</a>
+```
+
+- **`inert`**: desactiva foco, clics y selección en el elemento y sus descendientes.
+
+```html
+<div inert>Contenido temporalmente inactivo</div>
+```
+
+Otros atributos globales frecuentes:
+
+| Atributo | Uso |
+| --- | --- |
+| `autofocus` | enfoca el elemento automáticamente al cargar la página |
+| `autocapitalize` | controla la capitalización automática (teclados móviles) |
+| `inputmode` | sugiere el tipo de teclado virtual a mostrar |
+| `role` / `aria-*` | accesibilidad (ver [Accesibilidad y ARIA](#accesibilidad-a11y-y-aria)) |
+| `nonce` | habilita scripts/estilos bajo una política CSP |
+| `popover` | declara el elemento como popover nativo |
+| `slot` / `part` | integración con Shadow DOM / Web Components |
+
+---
+
+## Elementos obsoletos (evitar)
+
+Etiquetas presentacionales o de arquitecturas antiguas. HTML describe contenido; el estilo va en CSS.
+
+| Obsoleto | Alternativa |
+| --- | --- |
+| `<center>` | CSS `text-align` / `margin: auto` |
+| `<font>` | CSS `font-*`, `color` |
+| `<big>`, `<tt>`, `<strike>` | CSS o `<s>`, `<code>` |
+| `<acronym>` | `<abbr>` |
+| `<marquee>`, `<blink>` | CSS `animation` |
+| `<frame>`, `<frameset>` | `<iframe>` |
+| `<applet>` | sin alternativa moderna; evitar |
 
 ---
 
@@ -1312,6 +1545,66 @@ Atributos útiles:
 
 ---
 
+## `<datalist>` (sugerencias de autocompletado)
+
+```html
+<label for="navegador">Navegador favorito</label>
+<input list="navegadores" id="navegador" name="navegador" />
+
+<datalist id="navegadores">
+  <option value="Chrome"></option>
+  <option value="Firefox"></option>
+  <option value="Safari"></option>
+</datalist>
+```
+
+- El atributo `list` del `<input>` referencia el `id` del `<datalist>`.
+- A diferencia de `<select>`, el usuario puede escribir un valor distinto a las opciones sugeridas.
+
+---
+
+## `<progress>` (progreso de una tarea)
+
+```html
+<progress value="70" max="100">70%</progress>
+```
+
+- `value`: progreso actual. `max`: valor total (por defecto `1`).
+- Sin `value` se muestra en estado indeterminado (cargando).
+
+---
+
+## `<meter>` (valor dentro de un rango conocido)
+
+```html
+<label for="disco">Uso de disco</label>
+<meter id="disco" value="6" min="0" max="10" low="3" high="8" optimum="2">
+  6 de 10
+</meter>
+```
+
+- Representa una **medición escalar** (uso de disco, puntuación, votos), no una tarea en curso.
+- `low` / `high` / `optimum` matizan qué rango del valor se considera bueno o malo.
+
+---
+
+## `<output>` (resultado de un cálculo)
+
+```html
+<form oninput="resultado.value = Number(a.value) + Number(b.value)">
+  <input id="a" name="a" type="number" value="0" />
+  +
+  <input id="b" name="b" type="number" value="0" />
+  =
+  <output id="resultado" name="resultado" for="a b">0</output>
+</form>
+```
+
+- `for`: ids de los controles que participan en el resultado.
+- Se comporta como un campo más del formulario (participa en `FormData`).
+
+---
+
 ## Botones (`button` e inputs tipo botón)
 
 ### `button` recomendado
@@ -2052,6 +2345,47 @@ Valores:
 
 ---
 
+## `<iframe>` (documento anidado)
+
+```html
+<iframe
+  src="https://example.com"
+  title="Sitio embebido"
+  width="600"
+  height="400"
+  loading="lazy"
+></iframe>
+```
+
+- `title`: **obligatorio** para accesibilidad (describe el contenido embebido).
+- `loading="lazy"`: difiere la carga hasta que el iframe entra en el viewport.
+- `sandbox`: restringe capacidades del contenido embebido (scripts, formularios, popups).
+
+```html
+<iframe
+  src="widget.html"
+  title="Widget externo"
+  sandbox="allow-scripts allow-same-origin"
+></iframe>
+```
+
+---
+
+## `<embed>` y `<object>` (contenido externo/plugins)
+
+```html
+<embed src="documento.pdf" type="application/pdf" width="600" height="400" />
+
+<object data="documento.pdf" type="application/pdf" width="600" height="400">
+  <p>No se pudo cargar el PDF. <a href="documento.pdf">Descárgalo aquí</a>.</p>
+</object>
+```
+
+- `<object>` admite contenido de reemplazo (fallback) dentro de la etiqueta; `<embed>` no.
+- Uso típico hoy: PDFs embebidos, SVG externo, recursos que no encajan como imagen/video/audio estándar.
+
+---
+
 ## Tablas
 
 Las tablas se usan **exclusivamente para datos tabulares**  
@@ -2325,6 +2659,47 @@ Valores comunes:
 
 ---
 
+## `<details>` y `<summary>` (contenido plegable)
+
+```html
+<details>
+  <summary>¿Qué incluye el envío?</summary>
+  <p>Incluye seguro, seguimiento y entrega en 3 días hábiles.</p>
+</details>
+```
+
+- Widget nativo de mostrar/ocultar, sin necesidad de JavaScript.
+- `<summary>` es la parte siempre visible (encabezado clicable).
+- El atributo `open` lo muestra expandido por defecto:
+
+```html
+<details open>
+  <summary>Detalles técnicos</summary>
+  <p>Contenido visible desde el inicio.</p>
+</details>
+```
+
+---
+
+## `<dialog>` (cuadro de diálogo nativo)
+
+```html
+<dialog id="modal">
+  <p>¿Confirmas la acción?</p>
+  <button value="cancel" formmethod="dialog">Cancelar</button>
+  <button value="confirm" formmethod="dialog">Confirmar</button>
+</dialog>
+
+<button onclick="modal.showModal()">Abrir diálogo</button>
+```
+
+- `showModal()` (JS): abre como modal, bloqueando la interacción con el resto de la página.
+- `show()` (JS): abre sin bloquear el resto de la página.
+- `close()` (JS): cierra el diálogo; también se cierra con `Esc` en modo modal.
+- El atributo `open` refleja si el diálogo está visible.
+
+---
+
 ## Accesibilidad (A11y) y ARIA
 
 La accesibilidad busca que **todas las personas**, incluyendo usuarios con discapacidades, puedan usar la web.  
@@ -2488,6 +2863,63 @@ Roles comunes:
 
 ---
 
+## `<script>` (JavaScript en HTML)
+
+```html
+<script src="/app.js" defer></script>
+<script type="module" src="/main.js"></script>
+<script>
+  console.log("Script inline");
+</script>
+```
+
+- `defer`: descarga en paralelo, ejecuta tras parsear el HTML, respetando el orden.
+- `async`: descarga en paralelo, ejecuta apenas está lista (orden no garantizado).
+- `type="module"`: habilita `import`/`export` de ES Modules; se difiere automáticamente (similar a `defer`).
+
+---
+
+## `<noscript>` (contenido alternativo sin JavaScript)
+
+```html
+<noscript>
+  <p>Esta página requiere JavaScript para funcionar correctamente.</p>
+</noscript>
+```
+
+- Se renderiza solo si el navegador tiene JavaScript deshabilitado o no lo soporta.
+
+---
+
+## `<template>` (marcado reutilizable no renderizado)
+
+```html
+<template id="fila-usuario">
+  <tr>
+    <td class="nombre"></td>
+    <td class="correo"></td>
+  </tr>
+</template>
+```
+
+- El contenido no se renderiza ni se ejecuta hasta ser clonado con JavaScript (`content.cloneNode(true)`).
+- Útil como plantilla de componentes o filas repetibles.
+
+---
+
+## `<canvas>` (gráficos vía JavaScript)
+
+```html
+<canvas id="grafico" width="400" height="200">
+  Tu navegador no soporta canvas.
+</canvas>
+```
+
+- Área en blanco donde se dibuja con la Canvas API o WebGL desde JavaScript.
+- El contenido interno del elemento es el fallback si `<canvas>` no es soportado.
+
+---
+
 ## SEO y metadatos del documento HTML
 
 Los metadatos permiten a navegadores, buscadores y redes sociales **entender y presentar correctamente** tu página.  
@@ -2618,6 +3050,18 @@ Ejemplo moderno:
 ```html
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 ```
+
+---
+
+## `<base>` (URL base del documento)
+
+```html
+<base href="https://example.com/" target="_blank" />
+```
+
+- Define la URL base para todas las rutas relativas del documento (`href`, `src`).
+- Debe ser **único** y ubicarse entre los primeros elementos del `<head>`.
+- El atributo `target` opcional define el destino por defecto de los enlaces del documento.
 
 ---
 
