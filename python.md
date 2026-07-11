@@ -1,7 +1,97 @@
+## Guía Rápida de Python
+
+Colección de recordatorios y fragmentos de código orientados a quienes ya
+exploraron los conceptos básicos y quieren revisar la sintaxis con ejemplos
+breves. Todas las secciones siguen un estilo de "receta": título corto, contexto
+concreto y snippet listo para copiar.
+
+> Versión: Python 3.12+ · Actualizado: 2026-07-10
+
+## Tabla de contenidos
+
+- [Comentarios](#comentarios)
+- [Tipos y conversión](#tipos-y-conversión)
+- [Operadores numéricos](#operadores-numéricos)
+- [Operadores de asignación](#operadores-de-asignación)
+- [Operadores de comparación](#operadores-de-comparación)
+- [Operadores lógicos](#operadores-lógicos)
+- [Operadores de identidad](#operadores-de-identidad)
+- [Operadores de pertenencia](#operadores-de-pertenencia)
+- [Operador condicional (ternario)](#operador-condicional-ternario)
+- [Estructuras condicionales](#estructuras-condicionales)
+- [Estructuras iterativas](#estructuras-iterativas)
+- [Range](#range)
+- [Cláusulas en Loops](#cláusulas-en-loops)
+- [pass](#pass)
+- [match](#match)
+- [Texto](#texto)
+- [Listas](#listas)
+- [Tuplas](#tuplas)
+- [Conjuntos](#conjuntos)
+- [Diccionarios](#diccionarios)
+- [Funciones](#funciones)
+- [Decoradores](#decoradores)
+- [Generadores](#generadores)
+- [Iteradores](#iteradores)
+- [Módulos](#módulos)
+- [Módulos Estándar de Python](#módulos-estándar-de-python)
+- [La función dir()](#la-función-dir)
+- [Paquetes](#paquetes)
+- [Clases](#clases)
+- [Herencia Múltiple](#herencia-múltiple)
+- [Clases abstractas](#clases-abstractas)
+- [Enum](#enum)
+- [Type hints](#type-hints)
+- [Formatos de salida](#formatos-de-salida)
+- [Métodos de Objetos de Archivo](#métodos-de-objetos-de-archivo)
+- [Administradores de contexto personalizados](#administradores-de-contexto-personalizados)
+- [Excepciones](#excepciones)
+- [Docstrings](#docstrings)
+- [Estilo de codificación](#estilo-de-codificación)
+- [Uso de la librería estándar](#uso-de-la-librería-estándar)
+- [Entornos virtuales](#entornos-virtuales)
+
+---
+
 ## Comentarios
 
 ```python
 # Soy un comentario
+```
+
+---
+
+## Tipos y conversión
+
+- **Tipos básicos**
+
+```python
+type(1)      # <class 'int'>
+type(1.5)    # <class 'float'>
+type('a')    # <class 'str'>
+type(True)   # <class 'bool'>
+type(None)   # <class 'NoneType'>
+type([1])    # <class 'list'>
+```
+
+- **Conversión explícita**
+
+```python
+int('42')      # 42
+int(3.9)       # 3 (trunca)
+float('3.14')  # 3.14
+str(42)        # '42'
+bool(0)        # False
+bool('')       # False
+bool('texto')  # True
+list('abc')    # ['a', 'b', 'c']
+```
+
+- **Comprobar el tipo**
+
+```python
+isinstance(1, int)        # True
+isinstance(1, (int, float))  # True
 ```
 
 ---
@@ -48,6 +138,20 @@
 
 ```python
 2 ** 3 # 8
+```
+
+- **Módulo y cociente en un único paso**
+
+```python
+divmod(9, 4)  # (2, 1)
+```
+
+- **Valor absoluto y redondeos**
+
+```python
+abs(-3.5)      # 3.5
+round(3.1415)  # 3
+round(3.1415, 2)  # 3.14
 ```
 
 ---
@@ -109,6 +213,21 @@ x = 5
 x **= 3  # x ahora es 125 (5 ** 3)
 ```
 
+- **Asignación múltiple y desempaquetado**
+
+```python
+a, b, c = 1, 2, 3
+a, b = b, a  # intercambio: a = 2, b = 1
+primero, *resto = [1, 2, 3, 4]  # primero = 1, resto = [2, 3, 4]
+```
+
+- **Operador "walrus" (asignación en expresiones)**
+
+```python
+if (n := len([1, 2, 3])) > 2: # asigna y evalúa a la vez
+  print(f'La lista tiene {n} elementos') # La lista tiene 3 elementos
+```
+
 ---
 
 ## Operadores de comparación
@@ -149,6 +268,12 @@ x **= 3  # x ahora es 125 (5 ** 3)
 1 >= 2 # False
 ```
 
+- **Comparaciones encadenadas**
+
+```python
+1 < 2 < 3  # True, equivale a (1 < 2) and (2 < 3)
+```
+
 ---
 
 ## Operadores lógicos
@@ -171,6 +296,9 @@ True or False # True
 not False # True
 ```
 
+> Cualquier objeto puede evaluarse como verdadero/falso. Por ejemplo, listas
+> vacías, `0` y `None` se consideran false; el resto es truthy.
+
 ---
 
 ## Operadores de identidad
@@ -187,6 +315,11 @@ not False # True
 1 is not 1 # False
 ```
 
+> Usa `is`/`is not` para comparar identidades de objetos (misma posición en
+> memoria). Para comparar valores escalares como números o cadenas, prefiere
+> `==`/`!=`, ya que la interning de objetos pequeños puede hacer que `is`
+> devuelva resultados engañosos.
+
 ---
 
 ## Operadores de pertenencia
@@ -201,6 +334,15 @@ not False # True
 
 ```python
 1 not in [1, 2, 3] # False
+```
+
+---
+
+## Operador condicional (ternario)
+
+```python
+edad = 20
+estado = 'mayor' if edad >= 18 else 'menor'  # 'mayor'
 ```
 
 ---
@@ -269,6 +411,14 @@ for i in range(5):
 # 0 1 2 3 4
 ```
 
+Rangos también aceptan inicio y paso personalizados:
+
+```python
+for i in range(2, 10, 2):
+  print(i)
+# 2 4 6 8
+```
+
 ---
 
 ## Cláusulas en Loops
@@ -293,12 +443,25 @@ for i in range(5):
 # 0 1 2 4
 ```
 
+- **else en loops**
+
+Se ejecuta cuando el bucle termina sin `break`.
+
+```python
+for i in range(5):
+  if i == 10:
+    break
+else:
+  print('El bucle terminó sin interrupciones')
+# El bucle terminó sin interrupciones
+```
+
 ---
 
 ## pass
 
 Marcador de posición para código que aún no has escrito.
-Permite a los desarrolladores crear esqueletos de código que pueden ser completados más tarde, manteniendo la estructura del programa clara y sin errores de sintaxis
+Permite a los desarrolladores crear esqueletos de código que pueden ser completados más tarde, manteniendo la estructura del programa clara y sin errores de sintaxis.
 
 - **Estructuras condicionales**
 
@@ -326,7 +489,11 @@ for elemento in mi_lista:
     pass  # Implementación futura
 ```
 
+---
+
 ## match
+
+> Disponible desde Python 3.10. Facilita el "pattern matching" estructural.
 
 - **Estructura**
 
@@ -346,6 +513,7 @@ def describir_tipo(objeto):
 - **Desempaquetado de Secuencias**
 
 ```python
+punto = (1, 2)
 match punto:
     case (0, 0):
         print("Origen")
@@ -372,6 +540,22 @@ match objeto:
     case _:
         print("Tipo no identificado")
 ```
+
+- **Coincidencia con diccionarios**
+
+```python
+comando = {"tipo": "mover", "x": 10, "y": 5}
+
+match comando:
+    case {"tipo": "mover", "x": x, "y": y}:
+        print(f"Moviendo a ({x}, {y})")
+    case {"tipo": "esperar", "segundos": s} if s > 0:
+        print(f"Esperando {s} segundos")
+    case _:
+        raise ValueError("Comando no soportado")
+```
+
+---
 
 ## Texto
 
@@ -407,6 +591,14 @@ repeticion = 'Hola' * 3 + 'Mundo' # HolaHolaHola Mundo
 cadena = "Python"
 caracter = cadena[0] # 'P'
 subcadena = cadena[1:4] # 'yth'
+```
+
+- **Slicing con paso**
+
+```python
+cadena = "Python"
+cadena[::2]   # 'Pto'
+cadena[::-1]  # 'nohtyP' (invertir)
 ```
 
 - **Cadena multilinea**
@@ -499,7 +691,7 @@ cadena.count('t') # 1
 - **Comprobar si es alfanumérica**
 
 ```python
-cadena.isnumeric() # False
+cadena.isalnum() # False
 ```
 
 - **Comprobar si es alfabética**
@@ -511,8 +703,27 @@ cadena.isalpha() # True
 - **Buscar el índice de un caracter**
 
 ```python
-cadena.index('P') # 0S
+cadena.index('P') # 0
 cadena.index('w') # ValueError
+```
+
+- **Eliminar espacios en blanco al inicio y final**
+
+```python
+"  hola  ".strip()   # 'hola'
+"__hola__".strip('_')  # 'hola'
+```
+
+- **Unir elementos iterables**
+
+```python
+"-".join(["2024", "05", "01"])  # '2024-05-01'
+```
+
+- **Separar en tuplas usando el primer separador**
+
+```python
+"usuario:123".partition(":")  # ('usuario', ':', '123')
 ```
 
 ---
@@ -633,7 +844,6 @@ lista.clear() # []
 ```python
 lista = [1, 2, 3]
 len(lista) # 3
-
 ```
 
 - **Máximo**
@@ -659,6 +869,22 @@ sum([1, 2, 3]) # 6
 ```python
 lista = [3, 2, 1]
 lista.sort() # [1, 2, 3]
+lista.sort(reverse=True) # [3, 2, 1]
+```
+
+- **sorted() con clave personalizada**
+
+```python
+personas = [('Ana', 30), ('Luis', 25)]
+sorted(personas, key=lambda p: p[1])  # [('Luis', 25), ('Ana', 30)]
+```
+
+- **Invertir la lista**
+
+```python
+lista = [1, 2, 3]
+lista.reverse() # [3, 2, 1]
+list(reversed(lista))  # nuevo iterable invertido, no muta la lista
 ```
 
 - **Contar la Ocurrencia de un Elemento**
@@ -682,9 +908,65 @@ lista = [1, 2, 3]
 lista2 = lista.copy() # [1, 2, 3]
 ```
 
+### Comprensiones y utilidades
+
+- **Comprensión básica**
+
+```python
+[n * 2 for n in range(5)]  # [0, 2, 4, 6, 8]
+```
+
+- **Comprensión con condición**
+
+```python
+[n for n in range(10) if n % 2 == 0]  # [0, 2, 4, 6, 8]
+```
+
+- **Comprensión anidada**
+
+```python
+[[f'{i}{j}' for j in range(2)] for i in range(2)]
+# [['00', '01'], ['10', '11']]
+```
+
+- **Enumerar elementos**
+
+```python
+for indice, valor in enumerate(['a', 'b']):
+  print(indice, valor)
+# 0 a
+# 1 b
+```
+
+- **Combinar listas con zip**
+
+```python
+for nombre, edad in zip(['Ana', 'Luis'], [30, 25]):
+  print(f'{nombre} tiene {edad} años')
+```
+
+- **map, filter y reduce**
+
+```python
+list(map(str.upper, ['a', 'b']))      # ['A', 'B']
+list(filter(lambda n: n > 1, [1, 2, 3]))  # [2, 3]
+
+from functools import reduce
+reduce(lambda acc, n: acc + n, [1, 2, 3], 0)  # 6
+```
+
+- **any() y all()**
+
+```python
+any([False, True, False])  # True
+all([True, True, False])   # False
+```
+
 ---
 
 ## Tuplas
+
+Colecciones inmutables y ordenadas; ideales para representar registros fijos.
 
 ### Creación de tuplas
 
@@ -781,6 +1063,26 @@ lista = [1, 2, 3]
 tupla = tuple(lista) # (1, 2, 3)
 ```
 
+- **Desempaquetado**
+
+```python
+punto = (10, 20)
+x, y = punto  # x = 10, y = 20
+
+def extremos():
+    return 1, 99  # retorna una tupla
+```
+
+- **namedtuple**
+
+```python
+from collections import namedtuple
+
+Punto = namedtuple('Punto', ['x', 'y'])
+p = Punto(1, 2)
+p.x, p.y  # (1, 2)
+```
+
 ---
 
 ## Conjuntos
@@ -797,6 +1099,12 @@ conjunto1 = {1, 2, 3}
 
 ```python
 conjunto2 = set()
+```
+
+- **Comprensión de conjuntos**
+
+```python
+{n % 3 for n in range(6)}  # {0, 1, 2}
 ```
 
 ### Añadir Elementos
@@ -927,6 +1235,20 @@ conjunto2 = {3, 4}
 conjunto1.isdisjoint(conjunto2) # True
 ```
 
+- **Actualizar en sitio sin crear nuevos conjuntos**
+
+```python
+conjunto = {1, 2, 3}
+conjunto.difference_update({2, 3})  # conjunto = {1}
+```
+
+- **Conjuntos inmutables**
+
+```python
+permisos = frozenset({'lectura', 'escritura'})
+# Ideal para usar como clave en diccionarios
+```
+
 ---
 
 ## Diccionarios
@@ -981,6 +1303,64 @@ diccionario = {'nombre': 'Juan', 'edad': 25}
 diccionario.items() # dict_items([('nombre', 'Juan'), ('edad', 25)])
 ```
 
+- **Iterar sobre claves y valores**
+
+```python
+for clave, valor in diccionario.items():
+  print(clave, valor)
+```
+
+- **Obtener con valor por defecto**
+
+```python
+diccionario.get('altura', 0)  # 0
+```
+
+- **Actualizar múltiples claves**
+
+```python
+diccionario.update({'nombre': 'Ana', 'pais': 'Perú'})
+```
+
+- **Establecer si no existe**
+
+```python
+diccionario.setdefault('rol', 'viewer')  # agrega 'rol' si falta
+```
+
+- **Eliminar una clave**
+
+```python
+diccionario = {'a': 1, 'b': 2}
+diccionario.pop('a')  # 1, diccionario = {'b': 2}
+del diccionario['b']  # diccionario = {}
+```
+
+- **Fusionar diccionarios**
+
+```python
+base = {'a': 1}
+extra = {'b': 2}
+base | extra  # {'a': 1, 'b': 2} (Python 3.9+)
+```
+
+- **Comprensión de diccionarios**
+
+```python
+cuadrados = {n: n**2 for n in range(3)}  # {0: 0, 1: 1, 2: 4}
+```
+
+- **Diccionario con valores por defecto**
+
+```python
+from collections import defaultdict
+
+contador = defaultdict(int)
+contador['a'] += 1  # 1, sin KeyError aunque 'a' no existiera
+```
+
+---
+
 ## Funciones
 
 ```python
@@ -1018,6 +1398,29 @@ def saludar(**kwargs):
 saludar(nombre='Juan') # Hola Juan
 ```
 
+- **Desempaquetar argumentos al llamar**
+
+```python
+def sumar(a, b, c):
+  return a + b + c
+
+valores = [1, 2, 3]
+sumar(*valores)  # 6
+
+datos = {'a': 1, 'b': 2, 'c': 3}
+sumar(**datos)  # 6
+```
+
+- **Parámetros solo-posicionales y solo-nombrados**
+
+```python
+def funcion(pos_solo, /, normal, *, kw_solo):
+  return (pos_solo, normal, kw_solo)
+
+funcion(1, 2, kw_solo=3)      # (1, 2, 3)
+funcion(1, normal=2, kw_solo=3)  # (1, 2, 3)
+```
+
 - **Retorno de valores**
 
 ```python
@@ -1041,9 +1444,203 @@ def suma(a: int, b: int) -> int:
     return a + b
 ```
 
+- **Funciones de orden superior**
+
+```python
+from typing import Callable
+
+def operar(a: int, b: int, funcion: Callable[[int, int], int]) -> int:
+    return funcion(a, b)
+
+operar(2, 3, lambda x, y: x * y)  # 6
+```
+
+- **Closures y `nonlocal`**
+
+```python
+def contador():
+  n = 0
+  def incrementar():
+    nonlocal n
+    n += 1
+    return n
+  return incrementar
+
+siguiente = contador()
+siguiente()  # 1
+siguiente()  # 2
+```
+
+- **`global` dentro de una función**
+
+```python
+total = 0
+
+def acumular(valor):
+  global total
+  total += valor
+
+acumular(5)  # total ahora es 5
+```
+
 ---
 
-## Modulos
+## Decoradores
+
+Envuelven una función para extender su comportamiento sin modificar su código.
+
+- **Decorador básico**
+
+```python
+def con_log(func):
+    def envoltorio(*args, **kwargs):
+        print(f'Llamando a {func.__name__}')
+        return func(*args, **kwargs)
+    return envoltorio
+
+@con_log
+def saludar(nombre):
+    print(f'Hola {nombre}')
+
+saludar('Juan')
+# Llamando a saludar
+# Hola Juan
+```
+
+- **Preservar metadatos con `functools.wraps`**
+
+```python
+from functools import wraps
+
+def con_log(func):
+    @wraps(func)
+    def envoltorio(*args, **kwargs):
+        return func(*args, **kwargs)
+    return envoltorio
+```
+
+- **Decorador con argumentos propios**
+
+```python
+def repetir(veces):
+    def decorador(func):
+        def envoltorio(*args, **kwargs):
+            for _ in range(veces):
+                func(*args, **kwargs)
+        return envoltorio
+    return decorador
+
+@repetir(2)
+def saludar():
+    print('Hola')
+# Hola
+# Hola
+```
+
+- **`functools.lru_cache` para memoización**
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+```
+
+---
+
+## Generadores
+
+Funciones que producen valores de forma perezosa usando `yield`, sin construir
+toda la secuencia en memoria.
+
+- **Función generadora**
+
+```python
+def contar_hasta(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+for numero in contar_hasta(3):
+    print(numero)
+# 1 2 3
+```
+
+- **`yield from` para delegar en otro iterable**
+
+```python
+def combinar(a, b):
+    yield from a
+    yield from b
+
+list(combinar([1, 2], [3, 4]))  # [1, 2, 3, 4]
+```
+
+- **Expresión generadora**
+
+```python
+cuadrados = (n ** 2 for n in range(5))
+next(cuadrados)  # 0
+list(cuadrados)  # [1, 4, 9, 16] (0 ya se consumió)
+```
+
+- **Enviar valores a un generador**
+
+```python
+def eco():
+    while True:
+        recibido = yield
+        print(f'Recibido: {recibido}')
+
+gen = eco()
+next(gen)        # avanza hasta el primer yield
+gen.send('hola') # Recibido: hola
+```
+
+---
+
+## Iteradores
+
+Todo objeto iterable implementa `__iter__`; un iterador implementa además
+`__next__`.
+
+```python
+class Contador:
+    def __init__(self, limite):
+        self.limite = limite
+        self.actual = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.actual >= self.limite:
+            raise StopIteration
+        self.actual += 1
+        return self.actual
+
+for numero in Contador(3):
+    print(numero)
+# 1 2 3
+```
+
+- **Uso manual con `iter()` y `next()`**
+
+```python
+it = iter([1, 2, 3])
+next(it)  # 1
+next(it)  # 2
+next(it)  # 3
+next(it)  # StopIteration
+```
+
+---
+
+## Módulos
 
 - **Creación de un módulo**
 
@@ -1051,6 +1648,9 @@ def suma(a: int, b: int) -> int:
 # modulo.py
 def saludar():
   print('Hola, soy un módulo')
+
+if __name__ == '__main__':
+  saludar()
 ```
 
 - **Importación de un módulo**
@@ -1067,29 +1667,36 @@ import modulo as md
 md.saludar() # Hola, soy un módulo
 ```
 
-- **Importación de un módulo con la función from**
+- **Importación selectiva con `from`**
 
 ```python
 from modulo import saludar
 saludar() # Hola, soy un módulo
 ```
 
-- **Importación de todas las funciones de un módulo**
+- **Importación de objetos múltiples**
 
 ```python
-from modulo import *
+from modulo import saludar, despedir
 ```
 
-- **Importación de todas las funciones de un módulo con un alias**
+- **Evitar imports globales de comodín**
 
 ```python
-from modulo import * as md
+from modulo import *  # solo para sesiones interactivas o ejemplos rápidos
 ```
 
-- **Importación de todas las funciones de un módulo excepto una**
+- **Alias para elementos importados**
 
 ```python
-from modulo import * except saludar
+from modulo import funcion_costosa as fc
+```
+
+- **Controlar qué se exporta con `__all__`**
+
+```python
+# modulo.py
+__all__ = ['saludar']
 ```
 
 ---
@@ -1104,6 +1711,46 @@ Python viene con una biblioteca estándar que ofrece muchos módulos útiles. Al
 - datetime: Manipulación de fechas y horas.
 - json: Manipulación de datos JSON.
 - random: Generación de números aleatorios.
+- pathlib: Manipulación de rutas de archivo orientada a objetos.
+- collections: Estructuras adicionales (deque, Counter, defaultdict, etc.).
+- itertools: Herramientas para trabajar con iteradores infinitos o combinatorios.
+- functools: Herramientas para programación funcional (reduce, lru_cache, wraps).
+- re: Expresiones regulares.
+- logging: Registro de eventos y mensajes de diagnóstico.
+
+- **json: serializar y deserializar**
+
+```python
+import json
+
+datos = {'nombre': 'Ana', 'edad': 30}
+texto = json.dumps(datos)  # '{"nombre": "Ana", "edad": 30}'
+json.loads(texto)  # {'nombre': 'Ana', 'edad': 30}
+```
+
+- **re: expresiones regulares**
+
+```python
+import re
+
+re.match(r'\d+', '123abc')          # coincide '123'
+re.findall(r'\d+', 'a1 b22 c333')   # ['1', '22', '333']
+re.sub(r'\s+', ' ', 'a   b   c')    # 'a b c'
+```
+
+- **datetime: fechas y horas**
+
+```python
+from datetime import datetime, timedelta
+
+ahora = datetime.now()
+manana = ahora + timedelta(days=1)
+ahora.strftime('%Y-%m-%d')  # '2026-07-10'
+```
+
+> Consejo: agrupa importaciones estándar al inicio del archivo y revisa la
+> documentación oficial para descubrir utilidades menos conocidas como `statistics`
+> o `itertools`.
 
 ---
 
@@ -1123,14 +1770,26 @@ print(dir())
 # Esto mostrará todos los nombres definidos en tu espacio de nombres actual, incluyendo variables, funciones y módulos importados.
 ```
 
-- **Con un Objetos**
+- **Con un objeto**
   Al pasarle un objeto, dir() devuelve los atributos del objeto, lo cual incluye métodos y propiedades.
 
 ```python
 print(dir("Hola Mundo"))
 # Aquí se enumeran todos los métodos y propiedades asociados con un objeto de cadena (str).
-
 ```
+
+- **Combinado con `vars()`**
+
+```python
+class Persona:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+p = Persona("Lucía")
+print(vars(p))  # {'nombre': 'Lucía'}
+```
+
+---
 
 ## Paquetes
 
@@ -1164,16 +1823,24 @@ from paquete import modulo as md
 from paquete.modulo import *
 ```
 
-- **Importación de todas las funciones de un módulo de un paquete con un alias**
+- **Importación selectiva**
 
 ```python
-from paquete.modulo import * as md
+from paquete.modulo import saludar, despedir
 ```
 
-- **Importación de todas las funciones de un módulo de un paquete excepto una**
+- **Importaciones relativas**
 
 ```python
-from paquete.modulo import * except saludar
+# paquete/subpaquete/operaciones.py
+from ..utilidades import limpiar_nombre
+```
+
+- **Controlar exportaciones**
+
+```python
+# paquete/__init__.py
+__all__ = ['modulo']
 ```
 
 ---
@@ -1236,6 +1903,59 @@ class Estudiante(Persona):
     print(f'Estoy estudiando la carrera de {self.carrera}')
 ```
 
+- **Propiedades y `dataclass`**
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Punto:
+  x: int
+  y: int = 0
+
+class Cuenta:
+  def __init__(self, saldo):
+    self._saldo = saldo
+
+  @property
+  def saldo(self):
+    return self._saldo
+
+  @saldo.setter
+  def saldo(self, nuevo):
+    if nuevo < 0:
+      raise ValueError('Saldo negativo')
+    self._saldo = nuevo
+```
+
+- **Métodos estáticos y de clase**
+
+```python
+class Circulo:
+  def __init__(self, radio):
+    self.radio = radio
+
+  @staticmethod
+  def es_radio_valido(radio):
+    return radio > 0
+
+  @classmethod
+  def unidad(cls):
+    return cls(radio=1)
+
+Circulo.es_radio_valido(5)  # True
+Circulo.unidad().radio      # 1
+```
+
+- **Atributos y métodos "privados" (convención)**
+
+```python
+class Cuenta:
+  def __init__(self, saldo):
+    self._saldo = saldo      # protegido por convención
+    self.__pin = '1234'      # name mangling: _Cuenta__pin
+```
+
 - **Método super()**
 
 ```python
@@ -1280,6 +2000,25 @@ delattr(juan, 'edad')
 juan.edad # AttributeError: 'Persona' object has no attribute 'edad'
 ```
 
+- **Métodos mágicos comunes**
+
+```python
+class Vector:
+  def __init__(self, x, y):
+    self.x, self.y = x, y
+
+  def __repr__(self):
+    return f'Vector({self.x}, {self.y})'
+
+  def __eq__(self, otro):
+    return (self.x, self.y) == (otro.x, otro.y)
+
+  def __add__(self, otro):
+    return Vector(self.x + otro.x, self.y + otro.y)
+
+Vector(1, 2) + Vector(3, 4)  # Vector(4, 6)
+```
+
 ---
 
 ## Herencia Múltiple
@@ -1301,6 +2040,115 @@ class C(A, B):
 c = C()
 # Soy de clase A
 # Soy de clase C
+
+print(C.mro())
+# [<class '__main__.C'>, <class '__main__.A'>, <class '__main__.B'>, <class 'object'>]
+```
+
+> `super()` sigue el Method Resolution Order (MRO). Si necesitas llamar a un
+> padre específico, llama a su método directamente, pero mantén el orden del MRO
+> para evitar ejecuciones duplicadas.
+
+---
+
+## Clases abstractas
+
+Usa `abc` para definir interfaces que obligan a implementar ciertos métodos.
+
+```python
+from abc import ABC, abstractmethod
+
+class Figura(ABC):
+  @abstractmethod
+  def area(self):
+    ...
+
+class Cuadrado(Figura):
+  def __init__(self, lado):
+    self.lado = lado
+
+  def area(self):
+    return self.lado ** 2
+
+Cuadrado(4).area()  # 16
+Figura()  # TypeError: no se puede instanciar una clase abstracta
+```
+
+---
+
+## Enum
+
+```python
+from enum import Enum, auto
+
+class Color(Enum):
+  ROJO = auto()
+  VERDE = auto()
+  AZUL = auto()
+
+Color.ROJO          # <Color.ROJO: 1>
+Color.ROJO.name      # 'ROJO'
+Color.ROJO.value     # 1
+Color.ROJO == Color.VERDE  # False
+
+for color in Color:
+  print(color)
+```
+
+---
+
+## Type hints
+
+Las anotaciones documentan tipos esperados; no se aplican en tiempo de
+ejecución sin herramientas externas como `mypy`.
+
+- **Tipos básicos y colecciones (Python 3.9+)**
+
+```python
+def saludar(nombre: str) -> str:
+  return f'Hola {nombre}'
+
+edades: dict[str, int] = {'Ana': 30}
+numeros: list[int] = [1, 2, 3]
+```
+
+- **Uniones y opcionales (Python 3.10+)**
+
+```python
+def buscar(id: int) -> str | None:
+  return None
+
+def procesar(valor: int | str) -> None:
+  ...
+```
+
+- **Alias de tipos (Python 3.12+)**
+
+```python
+type Vector = list[float]
+
+def escalar(factor: float, v: Vector) -> Vector:
+  return [factor * n for n in v]
+```
+
+- **Callable**
+
+```python
+from collections.abc import Callable
+
+def aplicar(funcion: Callable[[int, int], int], a: int, b: int) -> int:
+  return funcion(a, b)
+```
+
+- **Genéricos en clases (Python 3.12+)**
+
+```python
+class Caja[T]:
+  def __init__(self, contenido: T) -> None:
+    self.contenido = contenido
+
+  def obtener(self) -> T:
+    return self.contenido
 ```
 
 ---
@@ -1334,6 +2182,14 @@ print(f'Hola, me llamo {nombre} y tengo {edad} años')
 # Hola, me llamo Juan y tengo 25 años
 ```
 
+- **F-strings con expresiones y debug (`=`)**
+
+```python
+x = 10
+print(f'{x=}')        # x=10
+print(f'{x * 2}')     # 20
+```
+
 - **Alineación y Relleno**
 
 ```python
@@ -1352,6 +2208,8 @@ print('{:f}'.format(numero)) # '3.141593'
 print('{:.2f}'.format(numero)) # '3.14'
 print('{:10.2f}'.format(numero)) # '      3.14'
 print('{:010.2f}'.format(numero)) # '0000003.14'
+print(f'{1234567:,}')   # '1,234,567'
+print(f'{0.256:.1%}')   # '25.6%'
 ```
 
 - **Fecha y Hora**
@@ -1409,13 +2267,12 @@ archivo.close()
 print(lineas) # ['Hola Mundo']
 ```
 
-- **Leer todas las líneas de un archivo como una lista**
+- **Iterar sobre un archivo sin cargarlo completo**
 
 ```python
-archivo = open('archivo.txt', 'r')
-lineas = archivo.readlines()
-archivo.close()
-print(lineas) # ['Hola Mundo']
+with open('archivo.txt', 'r') as archivo:
+  for linea in archivo:
+    print(linea.strip())
 ```
 
 - **Cerrar un archivo**
@@ -1431,6 +2288,70 @@ archivo.close()
 with open('archivo.txt', 'r') as archivo:
   contenido = archivo.read()
 print(contenido) # 'Hola Mundo'
+```
+
+- **Modos de apertura comunes**
+
+```python
+open('a.txt', 'r')   # lectura (por defecto)
+open('a.txt', 'w')   # escritura, trunca el archivo
+open('a.txt', 'a')   # añade al final
+open('a.txt', 'x')   # crea, falla si ya existe
+open('a.bin', 'rb')  # lectura binaria
+```
+
+- **Uso de `pathlib.Path`**
+
+```python
+from pathlib import Path
+ruta = Path('archivo.txt')
+ruta.write_text('Hola con Path\n', encoding='utf-8')
+print(ruta.read_text())
+ruta.exists()  # True
+ruta.suffix    # '.txt'
+```
+
+---
+
+## Administradores de contexto personalizados
+
+El protocolo `with` requiere `__enter__` y `__exit__`.
+
+- **Con una clase**
+
+```python
+class Temporizador:
+  def __enter__(self):
+    print('Iniciando')
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    print('Finalizando')
+    return False  # no suprime excepciones
+
+with Temporizador():
+  print('Trabajando')
+# Iniciando
+# Trabajando
+# Finalizando
+```
+
+- **Con `contextlib.contextmanager`**
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def recurso():
+  print('Abriendo')
+  yield 'valor'
+  print('Cerrando')
+
+with recurso() as v:
+  print(v)
+# Abriendo
+# valor
+# Cerrando
 ```
 
 ---
@@ -1487,7 +2408,6 @@ else:
     print(f"Resultado procesado con éxito: {resultado}")
 finally:
     print("Finalización del manejo de archivos.")
-
 ```
 
 ### Levantando Excepciones
@@ -1498,6 +2418,26 @@ if x < 0:
     raise ValueError("x no puede ser negativo")
 ```
 
+- **Encadenar excepciones**
+
+```python
+try:
+    cargar_config()
+except FileNotFoundError as error:
+    raise RuntimeError("No se pudo iniciar la aplicación") from error
+```
+
+- **Agrupar varias excepciones (Python 3.11+)**
+
+```python
+try:
+    raise ExceptionGroup('varios errores', [ValueError('a'), TypeError('b')])
+except* ValueError as eg:
+    print('Se capturaron ValueError:', eg.exceptions)
+except* TypeError as eg:
+    print('Se capturaron TypeError:', eg.exceptions)
+```
+
 ### Excepciones Personalizadas
 
 ```python
@@ -1505,6 +2445,16 @@ class MiExcepcion(Exception):
     pass
 
 raise MiExcepcion("Un mensaje de error")
+```
+
+- **Ignorar temporalmente excepciones conocidas**
+
+```python
+from contextlib import suppress
+from pathlib import Path
+
+with suppress(FileNotFoundError):
+    Path('cache.tmp').unlink()
 ```
 
 ---
@@ -1554,10 +2504,15 @@ def funcion(arg1, arg2):
 
     Returns
     -------
-    tipo
+        tipo
         Lo que devuelve la función.
     """
 ```
+
+Consulta los docstrings con `help(funcion)` o `print(funcion.__doc__)` para
+aprovechar la documentación desde el intérprete.
+
+---
 
 ## Estilo de codificación
 
@@ -1608,15 +2563,20 @@ def funcion(arg1, arg2):
 
 ### Herramientas Útiles
 
-- Utiliza linters y formateadores de código, como flake8 y black, para asegurarte de que tu código cumple con PEP 8.
+- Utiliza linters y formateadores de código como ruff (incluye reglas de flake8) y black para asegurarte de que tu código cumple con PEP 8.
 - Usa mypy para la verificación de tipos si estás utilizando anotaciones de tipo.
 
 ---
 
-## Uso de llibreria
+## Uso de la librería estándar
+
+Explora la documentación oficial para descubrir módulos poco conocidos:
 
 - https://docs.python.org/3/tutorial/stdlib.html
 - https://docs.python.org/3/tutorial/stdlib2.html
+- `pydoc <módulo>` desde la terminal para abrir la ayuda integrada.
+
+---
 
 ## Entornos virtuales
 
